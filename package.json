@@ -1,6 +1,6 @@
 {
   "name": "@uasi-solutions/action-sharepoint-publish",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "GitHub Action that creates an archive of a repository and uploads it to a Sharepoint library",
   "main": "index.js",
   "scripts": {
