@@ -3,31 +3,31 @@ name: 'Publish to Sharepoint (UASI fork)'
 description: 'Create an archive of the repository and upload it to Sharepoint via client id and secret'
 author: 'UASI Solutions (forked from Olivier Brassard & Daniel Monaghan)'
 branding:
-  icon: 'upload-cloud'  
+  icon: 'upload-cloud'
   color: 'green'
 inputs:
-  site_url: 
+  site_url:
     description: 'The Sharepoint site url'
     required: true
-  sharepoint_client_id: 
+  sharepoint_client_id:
     description: 'Client ID to use for authentication'
     required: true
-  sharepoint_client_secret: 
+  sharepoint_client_secret:
     description: 'Client Secret to use for authentication'
     required: true
-  library_folder: 
+  library_folder:
     description: 'The path where to upload the archive in the library'
     required: true
     default: "Shared documents"
-  file_path: 
+  file_path:
     description: 'To upload a specific file instead of the whole repo, specify the path here'
     required: false
 runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
-    SITE_URL : ${{ inputs.site_url }}
-    CLIENTID : ${{ inputs.sharepoint_client_id }}
+    SITE_URL: ${{ inputs.site_url }}
+    CLIENTID: ${{ inputs.sharepoint_client_id }}
     CLIENTSECRET: ${{ inputs.sharepoint_client_secret }}
-    LIB_FOLDER : ${{ inputs.library_folder }}
-    FILE_PATH : ${{ inputs.file_path }}
+    LIB_FOLDER: ${{ inputs.library_folder }}
+    FILE_PATH: ${{ inputs.file_path }}
