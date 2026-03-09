@@ -1,7 +1,7 @@
 # action.yml
-name: 'Publish to Sharepoint'
-description: 'Create a archive of the repository and upload it to a Sharepoint online via client id and secret'
-author: 'Olivier Brassard & Daniel Monaghan'
+name: 'Publish to Sharepoint (UASI fork)'
+description: 'Create an archive of the repository and upload it to Sharepoint via client id and secret'
+author: 'UASI Solutions (forked from Olivier Brassard & Daniel Monaghan)'
 branding:
   icon: 'upload-cloud'  
   color: 'green'

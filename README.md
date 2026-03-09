@@ -1,6 +1,8 @@
-# action-sharepoint-publish
+# action-sharepoint-publish (UASI fork)
 
-A simple Github Action that create an archive of a repository and upload it to a Sharepoint library
+A simple GitHub Action that creates an archive of a repository and uploads it to a Sharepoint library.
+
+This repository is maintained by UASI Solutions as a fork of `obrassard/action-sharepoint-publish`.
 
 ## Inputs
 
@@ -40,7 +42,7 @@ jobs:
       uses: actions/checkout@v2
 
     - name: Publish to Sharepoint
-      uses: obrassard/action-sharepoint-publish@v1.1.1
+      uses: UASI-Solutions/action-sharepoint-publish@main
       with:
        site_url: 'https://you.sharepoint.com/sites/mySite'
        library_folder: 'Shared documents/releases'
