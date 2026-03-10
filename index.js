@@ -5,8 +5,13 @@ const DEFAULT_OIDC_AUDIENCE = "api://AzureADTokenExchange";
 const fetchApi = resolveFetch();
 
 function resolveFetch() {
-    if (typeof globalThis.fetch === "function") {
-        return globalThis.fetch.bind(globalThis);
+    const root =
+        (typeof globalThis !== "undefined" && globalThis) ||
+        (typeof global !== "undefined" && global) ||
+        (typeof self !== "undefined" && self);
+
+    if (root && typeof root.fetch === "function") {
+        return root.fetch.bind(root);
     }
 
     try {

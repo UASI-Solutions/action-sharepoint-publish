@@ -1,6 +1,6 @@
 {
   "name": "@uasi-solutions/action-sharepoint-publish",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "GitHub Action that creates an archive of a repository and uploads it to Sharepoint via OIDC",
   "main": "index.js",
   "scripts": {
