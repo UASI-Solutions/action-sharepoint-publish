@@ -6,6 +6,9 @@
   "scripts": {
     "test": "node --check index.js"
   },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
+  },
   "repository": "https://github.com/UASI-Solutions/action-sharepoint-publish",
   "license": "MIT"
 }
