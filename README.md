@@ -6,7 +6,7 @@ This action creates an archive of the current repository and uploads it to a Sha
 
 Version `2.x` removes client-secret auth and uses GitHub OIDC federation with an Entra app registration.
 
-- v1 auth (`sharepoint_client_id` + `sharepoint_client_secret`) is no longer supported.
+- v1 auth (`sharepoint_client_id` + `sharepoint_client_secret`) is no longer supported because Microsoft retired Azure ACS for Sharepoint Online, and it stops working on April 2, 2026. Reference: [Azure ACS retirement in Microsoft 365](https://learn.microsoft.com/en-us/sharepoint/dev/sp-add-ins/retirement-announcement-for-azure-acs).
 - v2 requires workflow permission `id-token: write`.
 
 ## Required Entra Setup

@@ -138,7 +138,7 @@ async function main() {
     const authMode = (process.env.AUTH_MODE || "oidc").toLowerCase();
 
     if (authMode !== "oidc") {
-        throw new Error("Unsupported AUTH_MODE. v2 only supports 'oidc'.");
+        throw new Error("Unsupported AUTH_MODE. v2 only supports 'oidc' because Microsoft retires Azure ACS-based Sharepoint Online auth on April 2, 2026.");
     }
 
     const siteUrl = requiredEnv("SITE_URL");
