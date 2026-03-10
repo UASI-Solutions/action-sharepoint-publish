@@ -1,20 +1,31 @@
 # action.yml
 name: 'Publish to Sharepoint (UASI fork)'
-description: 'Create an archive of the repository and upload it to Sharepoint via client id and secret'
+description: 'Create a repository archive and upload it to Sharepoint using GitHub OIDC federation to Entra ID'
 author: 'UASI Solutions (forked from Olivier Brassard & Daniel Monaghan)'
 branding:
   icon: 'upload-cloud'
   color: 'green'
 inputs:
+  auth_mode:
+    description: "Authentication mode. v2 supports only 'oidc'."
+    required: false
+    default: "oidc"
   site_url:
     description: 'The Sharepoint site url'
     required: true
-  sharepoint_client_id:
-    description: 'Client ID to use for authentication'
+  azure_client_id:
+    description: 'Entra app registration client ID used for OIDC token exchange'
     required: true
-  sharepoint_client_secret:
-    description: 'Client Secret to use for authentication'
+  azure_tenant_id:
+    description: 'Entra tenant ID that owns the federated app registration'
     required: true
+  azure_subscription_id:
+    description: 'Optional Azure subscription ID. Accepted for caller-workflow parity and not used by this action.'
+    required: false
+  azure_client_assertion_audience:
+    description: 'OIDC audience for requesting the GitHub identity token'
+    required: false
+    default: "api://AzureADTokenExchange"
   library_folder:
     description: 'The path where to upload the archive in the library'
     required: true
@@ -26,8 +37,11 @@ runs:
   using: 'docker'
   image: 'Dockerfile'
   env:
+    AUTH_MODE: ${{ inputs.auth_mode }}
     SITE_URL: ${{ inputs.site_url }}
-    CLIENTID: ${{ inputs.sharepoint_client_id }}
-    CLIENTSECRET: ${{ inputs.sharepoint_client_secret }}
+    AZURE_CLIENT_ID: ${{ inputs.azure_client_id }}
+    AZURE_TENANT_ID: ${{ inputs.azure_tenant_id }}
+    AZURE_SUBSCRIPTION_ID: ${{ inputs.azure_subscription_id }}
+    AZURE_CLIENT_ASSERTION_AUDIENCE: ${{ inputs.azure_client_assertion_audience }}
     LIB_FOLDER: ${{ inputs.library_folder }}
     FILE_PATH: ${{ inputs.file_path }}

@@ -1,14 +1,11 @@
 {
   "name": "@uasi-solutions/action-sharepoint-publish",
-  "version": "1.2.0",
-  "description": "GitHub Action that creates an archive of a repository and uploads it to a Sharepoint library",
+  "version": "2.0.0",
+  "description": "GitHub Action that creates an archive of a repository and uploads it to Sharepoint via OIDC",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "node --check index.js"
   },
   "repository": "https://github.com/UASI-Solutions/action-sharepoint-publish",
-  "license": "MIT",
-  "devDependencies": {
-    "spsave": "^3.1.6"
-  }
+  "license": "MIT"
 }

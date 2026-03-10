@@ -1,50 +1,57 @@
 # action-sharepoint-publish (UASI fork)
 
-A simple GitHub Action that creates an archive of a repository and uploads it to a Sharepoint library.
+This action creates an archive of the current repository and uploads it to a Sharepoint library.
 
-This repository is maintained by UASI Solutions as a fork of `obrassard/action-sharepoint-publish`.
+## Breaking Change in v2
+
+Version `2.x` removes client-secret auth and uses GitHub OIDC federation with an Entra app registration.
+
+- v1 auth (`sharepoint_client_id` + `sharepoint_client_secret`) is no longer supported because Microsoft retired Azure ACS for Sharepoint Online, and it stops working on April 2, 2026. Reference: [Azure ACS retirement in Microsoft 365](https://learn.microsoft.com/en-us/sharepoint/dev/sp-add-ins/retirement-announcement-for-azure-acs).
+- v2 requires workflow permission `id-token: write`.
+
+## Required Entra Setup
+
+1. Create or use an Entra app registration with Sharepoint application permissions.
+2. Add a federated credential for your GitHub repo/workflow context.
+3. Grant admin consent for the Sharepoint permissions on that app registration.
 
 ## Inputs
 
-### Example Inputs
+- `auth_mode` (optional, default: `oidc`) - v2 only supports `oidc`.
+- `site_url` (required) - full Sharepoint site URL (for example `https://contoso.sharepoint.com/sites/MySite`).
+- `azure_client_id` (required) - Entra app registration (service principal) client ID.
+- `azure_tenant_id` (required) - Entra tenant ID.
+- `library_folder` (required, default: `Shared documents`) - library path under the target site.
+- `file_path` (optional) - specific file to upload instead of auto-zipping the repository.
+- `azure_client_assertion_audience` (optional, default: `api://AzureADTokenExchange`) - audience used when requesting the GitHub OIDC token.
+- `azure_subscription_id` (optional) - accepted for caller-workflow parity; not used by this action.
+
+## Example Usage
 
 ```yaml
-# The complete URL of your Sharepoint site.
-site_url: 'https://you.sharepoint.com/sites/mySite'
+name: Publish Repo Source to Sharepoint
 
-# The path relative to the library where to upload a file.
-library_folder: 'Shared Documents/Github Sync'
-
-# The client ID to use for authentication.
-sharepoint_client_id: 'e2315739-2bca-4d89-a49b-31abc3ce378f'
-
-# The Sharepoint client secret.
-sharepoint_client_secret: 'JVrYn+jdyLk5buuhMtA0CKY9dnv4SMj2SdpZy5Ljcte='
-```
-
-> :bulb: Tip : It is recommended to use GitHub Actions Secrets to store sensitive informations like client secrets and id
-
-## Example usage
-
-This action is particularly useful when triggered by push:
-
-```yaml
-name: 'Sharepoint Sync'
-
-on: push
+on:
+  push:
+    branches:
+      - main
 
 jobs:
   publish:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
     steps:
-    - name: Cloning repo
-      uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
 
-    - name: Publish to Sharepoint
-      uses: UASI-Solutions/action-sharepoint-publish@main
-      with:
-        site_url: 'https://you.sharepoint.com/sites/mySite'
-        library_folder: 'Shared documents/releases'
-        sharepoint_client_id: ${{ secrets.CLIENTID }}
-        sharepoint_client_secret: ${{ secrets.CLIENTSECRET }}
+      - name: Publish repository archive to Sharepoint
+        uses: UASI-Solutions/action-sharepoint-publish@v2
+        with:
+          auth_mode: oidc
+          site_url: ${{ vars.SHAREPOINT_SITE_URL }}
+          library_folder: ${{ vars.SHAREPOINT_LIBRARY_FOLDER }}
+          azure_client_id: ${{ secrets.AZURE_CLIENT_ID }}
+          azure_tenant_id: ${{ secrets.AZURE_TENANT_ID }}
 ```
