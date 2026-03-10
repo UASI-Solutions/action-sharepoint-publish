@@ -2,6 +2,20 @@ const fs = require("fs");
 const path = require("path");
 
 const DEFAULT_OIDC_AUDIENCE = "api://AzureADTokenExchange";
+const fetchApi = resolveFetch();
+
+function resolveFetch() {
+    if (typeof globalThis.fetch === "function") {
+        return globalThis.fetch.bind(globalThis);
+    }
+
+    try {
+        const nodeFetch = require("node-fetch");
+        return nodeFetch.default || nodeFetch;
+    } catch (error) {
+        throw new Error("No fetch implementation available. Install node-fetch or use Node.js 18+ runtime.");
+    }
+}
 
 function requiredEnv(name) {
     const value = process.env[name];
@@ -49,7 +63,7 @@ async function getGitHubOidcToken(audience) {
     const separator = idTokenRequestUrl.includes("?") ? "&" : "?";
     const tokenUrl = `${idTokenRequestUrl}${separator}audience=${encodeURIComponent(audience)}`;
 
-    const response = await fetch(tokenUrl, {
+    const response = await fetchApi(tokenUrl, {
         headers: {
             Authorization: `Bearer ${idTokenRequestToken}`,
         },
@@ -80,7 +94,7 @@ async function exchangeForSharePointAccessToken(tenantId, clientId, siteUrl, oid
         client_assertion: oidcToken,
     });
 
-    const response = await fetch(tokenEndpoint, {
+    const response = await fetchApi(tokenEndpoint, {
         method: "POST",
         headers: {
             "Content-Type": "application/x-www-form-urlencoded",
@@ -118,7 +132,7 @@ async function uploadFileToSharePoint(siteUrl, libraryFolder, fileName, fileCont
     });
 
     const uploadUrl = `${normalizedSiteUrl}/_api/web/GetFolderByServerRelativePath(decodedurl=@a1)/Files/add(url=@a2,overwrite=true)?${query.toString()}`;
-    const response = await fetch(uploadUrl, {
+    const response = await fetchApi(uploadUrl, {
         method: "POST",
         headers: {
             Authorization: `Bearer ${accessToken}`,

@@ -1,10 +1,13 @@
 {
   "name": "@uasi-solutions/action-sharepoint-publish",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "GitHub Action that creates an archive of a repository and uploads it to Sharepoint via OIDC",
   "main": "index.js",
   "scripts": {
     "test": "node --check index.js"
+  },
+  "dependencies": {
+    "node-fetch": "^2.7.0"
   },
   "repository": "https://github.com/UASI-Solutions/action-sharepoint-publish",
   "license": "MIT"
