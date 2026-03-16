@@ -2,6 +2,8 @@
 
 This action creates an archive of the current repository and uploads it to a Sharepoint library.
 
+Uploaded file names are stable by default and do not include the commit SHA.
+
 ## Breaking Change in v2
 
 Version `2.x` removes client-secret auth and uses GitHub OIDC federation with an Entra app registration.
@@ -25,6 +27,12 @@ Version `2.x` removes client-secret auth and uses GitHub OIDC federation with an
 - `file_path` (optional) - specific file to upload instead of auto-zipping the repository.
 - `azure_client_assertion_audience` (optional, default: `api://AzureADTokenExchange`) - audience used when requesting the GitHub OIDC token.
 - `azure_subscription_id` (optional) - accepted for caller-workflow parity; not used by this action.
+
+## Uploaded Filename
+
+- The uploaded file name is `<owner_repo><extension>`.
+- Example: repository `contoso/finance-workflow-publisher` uploads as `contoso_finance-workflow-publisher.zip`.
+- SharePoint upload uses `overwrite=true`, so existing files with the same name are replaced and versioned by SharePoint.
 
 ## Example Usage
 
