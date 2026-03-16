@@ -31,7 +31,7 @@ Version `2.x` removes client-secret auth and uses GitHub OIDC federation with an
 ## Uploaded Filename
 
 - The uploaded file name is `<owner_repo><extension>`.
-- Example: repository `UASI-Solutions/knime-workflows` uploads as `UASI-Solutions_knime-workflows.zip`.
+- Example: repository `contoso/finance-workflow-publisher` uploads as `contoso_finance-workflow-publisher.zip`.
 - SharePoint upload uses `overwrite=true`, so existing files with the same name are replaced and versioned by SharePoint.
 
 ## Example Usage
