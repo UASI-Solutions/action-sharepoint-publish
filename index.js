@@ -58,8 +58,7 @@ function buildServerRelativeFolder(siteUrl, libraryFolder) {
 function buildFileName(filePath) {
     const extension = path.extname(filePath);
     const repository = normalizeRepositorySlug(requiredEnv("GITHUB_REPOSITORY"));
-    const sha = requiredEnv("GITHUB_SHA").substring(0, 7);
-    return `${repository}_${sha}${extension}`;
+    return `${repository}${extension}`;
 }
 
 async function getGitHubOidcToken(audience) {
